@@ -20,6 +20,7 @@ import com.memetix.mst.translate.Translate;
  * Created by Ekeon on 2016. 1. 7..
  */
 public class PersistentService extends Service {
+    private static final String REGEX_ENGLISH = "^[a-zA-Z]{1,30}";
 
     private ClipboardManager clipboardManager;
     private String cliptext = "";
@@ -41,12 +42,14 @@ public class PersistentService extends Service {
         public void onPrimaryClipChanged() {
             ClipData.Item item = clipboardManager.getPrimaryClip().getItemAt(0);
             cliptext = item.getText().toString();
+
+            if (!cliptext.matches(REGEX_ENGLISH)) return;
+
             new TranslateAsync() {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     CustomToast customToast = new CustomToast(getApplicationContext());
-                    customToast.showToast(translated, Toast.LENGTH_LONG);
-
+                    customToast.showToast(translated.matches(REGEX_ENGLISH) ? "결과 없슴" : translated, Toast.LENGTH_LONG);
                 }
             }.execute();
         }
