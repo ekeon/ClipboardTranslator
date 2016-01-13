@@ -49,7 +49,7 @@ public class PersistentService extends Service {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     CustomToast customToast = new CustomToast(getApplicationContext());
-                    customToast.showToast(translated.matches(REGEX_ENGLISH) ? "결과 없슴" : translated, Toast.LENGTH_LONG);
+                    customToast.showToast(translated.matches(REGEX_ENGLISH) ? "결과 없슴" : translated, Toast.LENGTH_SHORT);
                 }
             }.execute();
         }
